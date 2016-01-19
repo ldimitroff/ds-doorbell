@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "timbre-1187",
+    "project_number": "778736666364",
+    "name": "Timbre"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778736666364:android:d5f4ed4e92acb691",
+        "client_id": "android:devspark.com.doorbell",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "devspark.com.doorbell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778736666364-b2t3vfr2i7vdah8res2kcp9ktajl350s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "devspark.com.doorbell",
+            "certificate_hash": "691318E4E4401E925E54EAC2A95C715A4D37143F"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
