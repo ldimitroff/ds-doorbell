@@ -15,9 +15,6 @@ import devspark.com.doorbell.utils.SPHelper;
  */
 public class WifiReceiver extends BroadcastReceiver {
 
-    public static final String YES_ACTION = "YES";
-    public static final String NO_ACTION = "NO";
-
     @Override
     public void onReceive(Context context, Intent intent) {
         synchronized (this) { // blocks "this" from here ....
@@ -40,4 +37,5 @@ public class WifiReceiver extends BroadcastReceiver {
         }  // to here...
 
     }
+
 }

@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import devspark.com.doorbell.R;
-import devspark.com.doorbell.wifi.WifiReceiver;
+import devspark.com.doorbell.utils.Constants;
 
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
@@ -18,11 +18,11 @@ public class NotificationBuilderHelper {
 
         //Yes intent
         Intent yesReceive = new Intent();
-        yesReceive.setAction(WifiReceiver.YES_ACTION);
+        yesReceive.setAction(Constants.NOTIFICATION_YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(context, 0, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         //No intent
         Intent noReceive = new Intent();
-        noReceive.setAction(WifiReceiver.NO_ACTION);
+        noReceive.setAction(Constants.NOTIFICATION_NO_ACTION);
         PendingIntent pendingIntentNo = PendingIntent.getBroadcast(context, 0, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long[] v = {0, 0};

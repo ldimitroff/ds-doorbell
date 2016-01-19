@@ -8,10 +8,9 @@ import android.os.CountDownTimer;
 import android.widget.Toast;
 
 import devspark.com.doorbell.R;
-import devspark.com.doorbell.utils.Constants;
-import devspark.com.doorbell.wifi.WifiReceiver;
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
+import devspark.com.doorbell.utils.Constants;
 
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
@@ -24,9 +23,9 @@ public class NotificationReceiver extends BroadcastReceiver implements DoorOpenR
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (WifiReceiver.YES_ACTION.equalsIgnoreCase(action)) {
+        if (Constants.NOTIFICATION_YES_ACTION.equalsIgnoreCase(action)) {
             new DoorOpenRequestTask(NotificationReceiver.this, context).execute();
-        } else if (WifiReceiver.NO_ACTION.equalsIgnoreCase(action)) {
+        } else if (Constants.NOTIFICATION_NO_ACTION.equalsIgnoreCase(action)) {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(0);
         }

@@ -10,4 +10,7 @@ public class Constants {
 
     public static final String BASE_URL = "http://172.17.1.58:1880/";
 
+    public static final String NOTIFICATION_YES_ACTION = "YES";
+    public static final String NOTIFICATION_NO_ACTION = "NO";
+
 }
