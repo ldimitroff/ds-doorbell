@@ -14,7 +14,7 @@ import devspark.com.doorbell.utils.Constants;
  */
 public class NotificationBuilderHelper {
 
-    public static final NotificationCompat.Builder getNotification(Context context, boolean vibrate) {
+    public static NotificationCompat.Builder getNotification(Context context, boolean vibrate) {
 
         //Yes intent
         Intent yesReceive = new Intent();
@@ -25,11 +25,6 @@ public class NotificationBuilderHelper {
         noReceive.setAction(Constants.NOTIFICATION_NO_ACTION);
         PendingIntent pendingIntentNo = PendingIntent.getBroadcast(context, 0, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        long[] v = {0, 0};
-        if (vibrate) {
-            v = new long[]{500, 500};
-        }
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(context.getString(R.string.app_name))
@@ -37,7 +32,7 @@ public class NotificationBuilderHelper {
                 .setContentIntent(pendingIntentYes)
                 .addAction(R.drawable.ic_lock_open_black_24dp, context.getString(R.string.notification_open_door), pendingIntentYes)
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, context.getString(R.string.notification_discard), pendingIntentNo)
-                .setVibrate(v)
+                .setVibrate(vibrate ? new long[]{500, 500} : new long[]{0, 0})
                 .setPriority(Notification.PRIORITY_MAX)
                 .extend(new NotificationCompat.WearableExtender().
                         setHintHideIcon(true).
