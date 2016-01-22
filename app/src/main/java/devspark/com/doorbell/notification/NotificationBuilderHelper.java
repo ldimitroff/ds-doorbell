@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import devspark.com.doorbell.R;
-import devspark.com.doorbell.utils.Constants;
+import devspark.com.doorbell.utils.PhoneConstants;
 
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
@@ -18,11 +18,11 @@ public class NotificationBuilderHelper {
 
         //Yes intent
         Intent yesReceive = new Intent();
-        yesReceive.setAction(Constants.NOTIFICATION_YES_ACTION);
+        yesReceive.setAction(PhoneConstants.NOTIFICATION_YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(context, 0, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         //No intent
         Intent noReceive = new Intent();
-        noReceive.setAction(Constants.NOTIFICATION_NO_ACTION);
+        noReceive.setAction(PhoneConstants.NOTIFICATION_NO_ACTION);
         PendingIntent pendingIntentNo = PendingIntent.getBroadcast(context, 0, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
@@ -34,9 +34,7 @@ public class NotificationBuilderHelper {
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, context.getString(R.string.notification_discard), pendingIntentNo)
                 .setVibrate(vibrate ? new long[]{500, 500} : new long[]{0, 0})
                 .setPriority(Notification.PRIORITY_MAX)
-                .extend(new NotificationCompat.WearableExtender().
-                        setHintHideIcon(true).
-                        setContentAction(0));
+                .setLocalOnly(true);
         return mBuilder;
     }
 

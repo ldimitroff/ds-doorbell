@@ -4,7 +4,7 @@
     <string name="notification_discard">Descartar</string>
     <string name="notification_content_text">Click para abrir puerta!</string>
 
-    <string name="must_be_on_ds_network">Debes estar conectado en la red \'DevSpark\'</string>
+    <string name="must_be_on_ds_network">Debes estar conectado en la red \'DevSpark\' o \'DevSpark-Mobile\'</string>
     <string name="button_show_notification">Mostrar Notificacion</string>
     <string name="button_open_door">Abrir Puerta</string>
 
@@ -18,6 +18,8 @@
     <string name="devspark_user_token">DEVSPARK_USER_TOKEN</string>
     <string name="devspark_user_full_name">DEVSPARK_USER_NAME</string>
     <string name="devspark_user_photo_url">DEVSPARK_USER_PHOTO_URL</string>
+    <string name="devspark_user_nick">DEVSPARK_USER_NICK</string>
+
     <string name="sharedpreferences_name">myPrefs</string>
 
     <string name="toast_request_error">Hubo un error en el intento de abrir la puerta</string>
@@ -47,4 +49,8 @@
     <string name="toast_notification_time_completed">Puerta Cerrada. Tiempo Completado</string>
     <string name="toast_notification_time_remaining">"Puerta Abierta. Tiempo Restante: "</string>
     <string name="sign_in_account_not_able">Esta cuenta no esta habilitada</string>
+    <string name="button_change_nick">Cambiar Alias</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_accept">Aceptar</string>
+    <string name="dialog_change_nick_title">Cambiar Nombre de Bienvenida</string>
 </resources>

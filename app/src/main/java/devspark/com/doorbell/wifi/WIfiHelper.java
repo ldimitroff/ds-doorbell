@@ -11,7 +11,8 @@ import android.net.wifi.WifiManager;
  */
 public class WIfiHelper {
 
-    private static final String NETWORK_NAME = "DevSpark";
+    private static final String NETWORK_NAME_1 = "DevSpark";
+    private static final String NETWORK_NAME_2 = "DevSpark-Mobile";
 
     /**
      * Check wether is "DevSpark" wifi connected
@@ -25,7 +26,7 @@ public class WIfiHelper {
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             String ssid = wifiInfo.getSSID().replace("\"", "");
-            if (ssid.equalsIgnoreCase(NETWORK_NAME)) {
+            if (ssid.equalsIgnoreCase(NETWORK_NAME_1) || ssid.equalsIgnoreCase(NETWORK_NAME_2)) {
                 return true;
             }
         }

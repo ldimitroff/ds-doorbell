@@ -20,6 +20,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
@@ -53,14 +56,14 @@ import devspark.com.doorbell.listeners.LoginRequestListener;
 import devspark.com.doorbell.notification.NotificationBuilderHelper;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
 import devspark.com.doorbell.requests.LoginRequestTask;
-import devspark.com.doorbell.utils.Constants;
+import devspark.com.doorbell.utils.GoogleApiHelper;
+import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbell.utils.SPHelper;
 import devspark.com.doorbell.wifi.WIfiHelper;
+import devspark.com.doorbellcommons.Utils;
 
 public class Main2Activity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, DoorOpenRequestListener {
 
-    private static final int TIMER_RESET_PB = 1500;
-    private static final int TRANSITION_DRAWABLE_TIME = 500;
     private static final int RC_SIGN_IN = 9001;
 
     private ActionBarDrawerToggle mDrawerToggle;
@@ -92,7 +95,7 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.main_activity);
         mNavDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,14 +118,10 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
             }
         };
 
-        // Defer code dependent on restoration of previous instance state.
-        // NB: required for the drawer indicator to show up!
-        mNavDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mNavDrawerLayout.setDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle.syncState();
 
         initTextSwitcher();
 
@@ -151,9 +150,20 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
                 }
                 mIsDoorOpening = true;
                 mSwitcher.setText(getString(R.string.door_status_opening));
+                showBallView(true);
                 new DoorOpenRequestTask(Main2Activity.this, Main2Activity.this).execute();
             }
         });
+    }
+
+    private void showBallView(boolean show) {
+        if (show) {
+            mLockImageView.animate().alpha(0.0f);
+            findViewById(R.id.ballView).animate().alpha(1.0f);
+        } else {
+            findViewById(R.id.ballView).animate().alpha(0.0f);
+            mLockImageView.animate().alpha(1.0f);
+        }
     }
 
     private void initTextSwitcher() {
@@ -232,9 +242,38 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
                     NotificationManager mNotifyMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     // Builds the notification and issues it.
                     mNotifyMgr.notify(0, NotificationBuilderHelper.getNotification(Main2Activity.this, false).build());
+                    new GoogleApiHelper().sendMessage(Main2Activity.this, PhoneConstants.PATH_NOTIFICATION, "");
                 } else {
                     Toast.makeText(Main2Activity.this, R.string.must_be_on_ds_network, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        LinearLayout editNick = (LinearLayout) findViewById(R.id.editNick);
+        editNick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Set up the input
+                final EditText input = new EditText(Main2Activity.this);
+                // Specify the type of input expected;
+                input.setText(SPHelper.get().getUserNick());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                new AlertDialog.Builder(Main2Activity.this)
+                        .setView(input)
+                        .setTitle(getString(R.string.dialog_change_nick_title))
+                        .setPositiveButton(getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String text = input.getText().toString();
+                                if (!text.isEmpty() || !TextUtils.isEmpty(text)) {
+                                    SPHelper.get().setUserNick(text);
+                                }
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.dialog_cancel), null)
+                        .show();
             }
         });
 
@@ -316,8 +355,10 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
             String photoURl = SPHelper.get().getUserPhotoURL();
             findViewById(R.id.nav_sign_out).setVisibility(View.VISIBLE);
             findViewById(R.id.userProfileLayout).setVisibility(View.VISIBLE);
+            findViewById(R.id.editNick).setVisibility(View.VISIBLE);
             Glide.with(Main2Activity.this)
                     .load(photoURl)
+                    .fitCenter()
                     .error(R.mipmap.ic_launcher)
                     .into(mProfileImage);
             mUserNameTextField.setText(userName);
@@ -325,6 +366,7 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
             mSignInButton.setVisibility(View.VISIBLE);
             findViewById(R.id.userProfileLayout).setVisibility(View.INVISIBLE);
             findViewById(R.id.nav_sign_out).setVisibility(View.INVISIBLE);
+            findViewById(R.id.editNick).setVisibility(View.INVISIBLE);
         }
     }
 
@@ -351,10 +393,11 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResult(Status status) {
                         revokeAccess();
+                        SPHelper.get().setUserSignedIn(false);
                         SPHelper.get().setUserName("");
                         SPHelper.get().setUserPhotoURL("");
                         SPHelper.get().setUserToken("");
-                        SPHelper.get().setUserSignedIn(false);
+                        SPHelper.get().setUserNick("");
                         updateUI(false);
                     }
                 });
@@ -429,16 +472,20 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onRequestResult(Context context, Boolean success) {
+
+        Utils.vibrate(context, success);
+
         if (!success) {
             circularProgressButton.setProgress(-1);
             mSwitcher.setText(getString(R.string.door_status_closed));
+            showBallView(false);
             resetProgressButtonDelayed();
             Toast.makeText(Main2Activity.this, R.string.toast_request_error, Toast.LENGTH_LONG).show();
             return;
         }
         mSwitcher.setText(getString(R.string.door_status_open));
-        CountDownTimer mCountDownTimer = new CountDownTimer(Constants.COUNTDOWN_TIMER_TIME, Constants.COUNTDOWN_TIMER_STEP) {
-            int totalTime = Constants.COUNTDOWN_TIMER_TIME;
+        CountDownTimer mCountDownTimer = new CountDownTimer(PhoneConstants.COUNTDOWN_TIMER_TIME, PhoneConstants.COUNTDOWN_TIMER_STEP) {
+            int totalTime = PhoneConstants.COUNTDOWN_TIMER_TIME;
             int mCountDown = 0;
             boolean transitionStarted = false;
 
@@ -447,7 +494,8 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
                 mCountDown = (int) ((totalTime - millisUntilFinished) * 100 / totalTime);
                 circularProgressButton.setProgress(mCountDown);
                 if (mCountDown > 10 && !transitionStarted) {
-                    transitionDrawable.startTransition(TRANSITION_DRAWABLE_TIME);
+                    showBallView(false);
+                    transitionDrawable.startTransition(PhoneConstants.TRANSITION_DRAWABLE_TIME);
                     mLockImageView.bringToFront();
                     transitionStarted = true;
                 }
@@ -457,7 +505,7 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
             public void onFinish() {
                 //Do what you want
                 circularProgressButton.setProgress(100);
-                transitionDrawable.reverseTransition(TRANSITION_DRAWABLE_TIME);
+                transitionDrawable.reverseTransition(PhoneConstants.TRANSITION_DRAWABLE_TIME);
                 mLockImageView.bringToFront();
                 resetProgressButtonDelayed();
             }
@@ -474,7 +522,7 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
                 mSwitcher.setText(getString(R.string.door_status_closed));
                 mIsDoorOpening = false;
             }
-        }, TIMER_RESET_PB);
+        }, PhoneConstants.TIMER_RESET_PB);
     }
 
     @Override
@@ -488,7 +536,7 @@ public class Main2Activity extends AppCompatActivity implements GoogleApiClient.
                     mSnackBarHandler.removeCallbacksAndMessages(null);
                 }
                 mSnackBarHandler = new Handler();
-                mSnackBarHandler.postDelayed(mSnackBarUpdateRunnable, TIMER_RESET_PB);
+                mSnackBarHandler.postDelayed(mSnackBarUpdateRunnable, PhoneConstants.TIMER_RESET_PB);
             }
         }
 

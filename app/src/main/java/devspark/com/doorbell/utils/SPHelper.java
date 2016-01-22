@@ -2,6 +2,7 @@ package devspark.com.doorbell.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import devspark.com.doorbell.DevsparkApp;
 import devspark.com.doorbell.R;
@@ -85,5 +86,17 @@ public class SPHelper {
 
     public void setUserPhotoURL(String url) {
         getSPEditor().putString(context.getString(R.string.devspark_user_photo_url), url).apply();
+    }
+
+    public String getUserNick() {
+        String userNick = getSharedPreferences().getString(context.getString(R.string.devspark_user_nick), "");
+        if (TextUtils.isEmpty(userNick)){
+            return getUserName().split(" ")[0];
+        }
+        return userNick;
+    }
+
+    public void setUserNick(String nick) {
+        getSPEditor().putString(context.getString(R.string.devspark_user_nick), nick).apply();
     }
 }

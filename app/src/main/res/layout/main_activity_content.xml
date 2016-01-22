@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lib="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
     android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -24,11 +18,11 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:stateListAnimator="@null"
             android:textColor="@android:color/white"
             android:textSize="23sp"
             app:cpb_colorIndicator="@color/cpb_green_dark"
             app:cpb_cornerRadius="100dp"
-            android:stateListAnimator="@null"
             app:cpb_selectorComplete="@drawable/complete_state_selector"
             app:cpb_selectorIdle="@drawable/idle_state_selector" />
 
@@ -49,6 +43,20 @@
             android:layout_centerVertical="true"
             android:visibility="visible" />
 
+        <com.github.glomadrian.loadingballs.BallView
+            android:id="@+id/ballView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:alpha="0.0"
+            lib:ball_colors="@array/colors"
+            lib:balls="3"
+            lib:enable_size_animation="true"
+            lib:max_ball_size="12dp"
+            lib:min_ball_size="5dp"
+            lib:movement_cycle_time="1500"
+            lib:size_cycle_time="500" />
     </RelativeLayout>
 
 </LinearLayout>

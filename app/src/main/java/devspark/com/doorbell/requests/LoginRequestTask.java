@@ -7,7 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import java.net.URLEncoder;
 
 import devspark.com.doorbell.listeners.LoginRequestListener;
-import devspark.com.doorbell.utils.Constants;
+import devspark.com.doorbell.utils.PhoneConstants;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,7 +20,7 @@ public class LoginRequestTask extends AsyncTask<Void, Integer, String> {
     //nombre=Lucas%20Dimitroff&email=ldimitroff@devspark.com&id=103265991727012315028
     private static final String OPEN_DOOR_URL = "red/login?";
     private static final String SEPARATOR = "&";
-    private static final String CHARSET = "UTF-8";
+
     private final LoginRequestListener listener;
     private final GoogleSignInAccount mGoogleSingInAccount;
 
@@ -34,12 +34,12 @@ public class LoginRequestTask extends AsyncTask<Void, Integer, String> {
 
         String result;
         try {
-            String urlParams = "nombre=" + URLEncoder.encode(mGoogleSingInAccount.getDisplayName(), CHARSET) + SEPARATOR +
+            String urlParams = "nombre=" + URLEncoder.encode(mGoogleSingInAccount.getDisplayName(), PhoneConstants.CHARSET) + SEPARATOR +
                     "email=" + mGoogleSingInAccount.getEmail() + SEPARATOR +
                     "userId=" + mGoogleSingInAccount.getId();
 
             OkHttpClient client = OkHttpHelper.getOkHttpClient();
-            Request request = OkHttpHelper.getOkHttpRequest(Constants.BASE_URL + OPEN_DOOR_URL + urlParams);
+            Request request = OkHttpHelper.getOkHttpRequest(PhoneConstants.BASE_URL + OPEN_DOOR_URL + urlParams);
             Response response = client.newCall(request).execute();
             result = response.body().string();
 

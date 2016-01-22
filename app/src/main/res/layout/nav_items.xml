@@ -71,11 +71,6 @@
                 android:theme="@android:style/Theme.Holo" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/background_light" />
-
         <LinearLayout
             android:id="@+id/showNotification"
             android:layout_width="match_parent"
@@ -83,7 +78,12 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_light" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -93,12 +93,44 @@
                 android:text="@string/button_show_notification"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/background_light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_light" />
+
         </LinearLayout>
 
-        <View
+        <LinearLayout
+            android:id="@+id/editNick"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/background_light" />
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_light" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/button_change_nick"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/background_light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_light" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

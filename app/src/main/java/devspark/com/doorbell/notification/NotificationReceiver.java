@@ -10,7 +10,8 @@ import android.widget.Toast;
 import devspark.com.doorbell.R;
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
-import devspark.com.doorbell.utils.Constants;
+import devspark.com.doorbell.utils.PhoneConstants;
+import devspark.com.doorbellcommons.Utils;
 
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
@@ -23,9 +24,9 @@ public class NotificationReceiver extends BroadcastReceiver implements DoorOpenR
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (Constants.NOTIFICATION_YES_ACTION.equalsIgnoreCase(action)) {
+        if (PhoneConstants.NOTIFICATION_YES_ACTION.equalsIgnoreCase(action)) {
             new DoorOpenRequestTask(NotificationReceiver.this, context).execute();
-        } else if (Constants.NOTIFICATION_NO_ACTION.equalsIgnoreCase(action)) {
+        } else if (PhoneConstants.NOTIFICATION_NO_ACTION.equalsIgnoreCase(action)) {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(0);
         }
@@ -38,11 +39,12 @@ public class NotificationReceiver extends BroadcastReceiver implements DoorOpenR
         } else {
             Toast.makeText(context, R.string.toast_request_error, Toast.LENGTH_LONG).show();
         }
+        Utils.vibrate(context, success);
     }
 
     private void startNotificationToast(final Context context) {
-        CountDownTimer mCountDownTimer = new CountDownTimer(Constants.COUNTDOWN_TIMER_TIME, 950) {
-            int mCountDown = Constants.COUNTDOWN_TIMER_TIME / 1000;
+        CountDownTimer mCountDownTimer = new CountDownTimer(PhoneConstants.COUNTDOWN_TIMER_TIME, 950) {
+            int mCountDown = PhoneConstants.COUNTDOWN_TIMER_TIME / 1000;
 
             @Override
             public void onTick(long millisUntilFinished) {

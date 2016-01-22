@@ -8,7 +8,9 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
 import devspark.com.doorbell.notification.NotificationBuilderHelper;
+import devspark.com.doorbell.utils.GoogleApiHelper;
 import devspark.com.doorbell.utils.SPHelper;
+import devspark.com.doorbellcommons.Constants;
 
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
@@ -31,6 +33,7 @@ public class WifiReceiver extends BroadcastReceiver {
                         boolean vibrationEnabled = SPHelper.get().isVibrationEnabled();
                         // Builds the notification and issues it.
                         mNotifyMgr.notify(0, NotificationBuilderHelper.getNotification(context, vibrationEnabled).build());
+                        new GoogleApiHelper().sendMessage(context, Constants.PATH_NOTIFICATION, "");
                     }
                 }
             }
