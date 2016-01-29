@@ -38,7 +38,7 @@ public class PhoneListenerService extends WearableListenerService {
 
     public static void createNotification() {
 
-        Intent notificationIntent = new Intent(DevsparkWearApp.getContext(), MainActivity.class);
+        Intent notificationIntent = new Intent(DevsparkWearApp.getContext(), WearActivity.class);
         notificationIntent.putExtra(Constants.NOTIFICATION_BTN_CLICK_EXTRA, true);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(DevsparkWearApp.getContext(), 0,
@@ -63,6 +63,5 @@ public class PhoneListenerService extends WearableListenerService {
         );
         NotificationManagerCompat man = NotificationManagerCompat.from(DevsparkWearApp.getContext());
         man.notify(0, b.build());
-
     }
 }

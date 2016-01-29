@@ -23,6 +23,7 @@
     <string name="sharedpreferences_name">myPrefs</string>
 
     <string name="toast_request_error">Hubo un error en el intento de abrir la puerta</string>
+    <string name="toast_request_door_busy">La puerta ya estaba abierta…</string>
     <string name="open_door_button_opening">Abriendo</string>
     <string name="google_login_logging_in">Iniciando Sesion</string>
 

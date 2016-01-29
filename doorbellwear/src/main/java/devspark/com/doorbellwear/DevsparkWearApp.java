@@ -3,6 +3,7 @@ package devspark.com.doorbellwear;
 import android.app.Application;
 import android.content.Context;
 
+
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
  */

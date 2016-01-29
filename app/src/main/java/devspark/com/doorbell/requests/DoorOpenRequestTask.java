@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
+import devspark.com.doorbell.utils.DoorOpenResult;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbell.utils.SPHelper;
 import devspark.com.doorbell.wifi.WIfiHelper;
@@ -20,7 +21,7 @@ import okhttp3.Response;
 /**
  * @author Lucas Dimitroff <ldimitroff@devspark.com>
  */
-public class DoorOpenRequestTask extends AsyncTask<Void, Integer, Boolean> {
+public class DoorOpenRequestTask extends AsyncTask<Void, Integer, DoorOpenResult> {
 
     private static final String OPEN_DOOR_URL = "red/prende";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -36,9 +37,9 @@ public class DoorOpenRequestTask extends AsyncTask<Void, Integer, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    protected DoorOpenResult doInBackground(Void... params) {
         if (!SPHelper.get().isUserSignedIn() || !WIfiHelper.isDSWifiConnected(context)) {
-            return false;
+            return DoorOpenResult.FALSE;
         }
 
         String token = SPHelper.get().getUserToken();
@@ -61,13 +62,22 @@ public class DoorOpenRequestTask extends AsyncTask<Void, Integer, Boolean> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return DoorOpenResult.FALSE;
         }
-        return !(!result.isEmpty() && !result.equalsIgnoreCase("true"));
+        if (!result.trim().isEmpty()){
+            if (result.equalsIgnoreCase("true")){
+                return DoorOpenResult.TRUE;
+            }else if (result.equalsIgnoreCase("busy")){
+                return DoorOpenResult.BUSY;
+            }else if (result.equalsIgnoreCase("false")){
+                return DoorOpenResult.FALSE;
+            }
+        }
+        return DoorOpenResult.FALSE;
     }
 
     @Override
-    protected void onPostExecute(Boolean success) {
-        listener.onRequestResult(context, success);
+    protected void onPostExecute(DoorOpenResult result) {
+        listener.onRequestResult(context, result);
     }
 }

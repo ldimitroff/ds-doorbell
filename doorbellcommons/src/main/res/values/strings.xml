@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DoorbellCommons</string>
+
+    <string name="parse_app_id">gWXcDDqM73Zpp8BPCMiGCcYxn8HG0lw0VQADFyu4</string>
+    <string name="parse_client_key">XEBm0CG6mhpkovkvrrXODyI5zmmELBb03ur79mbl</string>
+
 </resources>

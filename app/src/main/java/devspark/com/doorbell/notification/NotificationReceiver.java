@@ -10,6 +10,7 @@ import android.widget.Toast;
 import devspark.com.doorbell.R;
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
+import devspark.com.doorbell.utils.DoorOpenResult;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbellcommons.Utils;
 
@@ -33,13 +34,19 @@ public class NotificationReceiver extends BroadcastReceiver implements DoorOpenR
     }
 
     @Override
-    public void onRequestResult(Context context, Boolean success) {
-        if (success) {
+    public void onRequestResult(Context context, DoorOpenResult result) {
+        if (result == DoorOpenResult.TRUE) {
             startNotificationToast(context);
         } else {
-            Toast.makeText(context, R.string.toast_request_error, Toast.LENGTH_LONG).show();
+            String errorMsg;
+            if (result == DoorOpenResult.BUSY) {
+                errorMsg = context.getResources().getString(R.string.toast_request_door_busy);
+            } else {
+                errorMsg = context.getResources().getString(R.string.toast_request_error);
+            }
+            Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
         }
-        Utils.vibrate(context, success);
+        Utils.vibrate(context, result == DoorOpenResult.TRUE);
     }
 
     private void startNotificationToast(final Context context) {
