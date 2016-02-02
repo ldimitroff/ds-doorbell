@@ -11,6 +11,7 @@ import devspark.com.doorbell.R;
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
 import devspark.com.doorbell.utils.DoorOpenResult;
+import devspark.com.doorbell.utils.FlurryAnalyticHelper;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbellcommons.Utils;
 
@@ -27,6 +28,7 @@ public class NotificationReceiver extends BroadcastReceiver implements DoorOpenR
 
         if (PhoneConstants.NOTIFICATION_YES_ACTION.equalsIgnoreCase(action)) {
             new DoorOpenRequestTask(NotificationReceiver.this, context).execute();
+            FlurryAnalyticHelper.logDoorOpenEvent(FlurryAnalyticHelper.FROM_NOTIFICATION);
         } else if (PhoneConstants.NOTIFICATION_NO_ACTION.equalsIgnoreCase(action)) {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(0);

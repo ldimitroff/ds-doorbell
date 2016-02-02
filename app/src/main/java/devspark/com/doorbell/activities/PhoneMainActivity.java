@@ -39,6 +39,7 @@ import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -57,6 +58,7 @@ import devspark.com.doorbell.notification.NotificationBuilderHelper;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
 import devspark.com.doorbell.requests.LoginRequestTask;
 import devspark.com.doorbell.utils.DoorOpenResult;
+import devspark.com.doorbell.utils.FlurryAnalyticHelper;
 import devspark.com.doorbell.utils.GoogleApiHelper;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbell.utils.SPHelper;
@@ -94,6 +96,7 @@ public class PhoneMainActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+    
         DrawerLayout mNavDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -150,6 +153,7 @@ public class PhoneMainActivity extends AppCompatActivity implements GoogleApiCli
                 mSwitcher.setText(getString(R.string.door_status_opening));
                 showBallView(true);
                 new DoorOpenRequestTask(PhoneMainActivity.this, PhoneMainActivity.this).execute();
+                FlurryAnalyticHelper.logDoorOpenEvent(FlurryAnalyticHelper.FROM_ACTIVITY);
             }
         });
     }
@@ -591,5 +595,17 @@ public class PhoneMainActivity extends AppCompatActivity implements GoogleApiCli
         } else {
             dismissSnackBar();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        FlurryAgent.onStartSession(this);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        FlurryAgent.onEndSession(this);
+        super.onStop();
     }
 }

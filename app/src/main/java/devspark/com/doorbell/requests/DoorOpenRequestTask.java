@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.utils.DoorOpenResult;
+import devspark.com.doorbell.utils.FlurryAnalyticHelper;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbell.utils.SPHelper;
 import devspark.com.doorbell.wifi.WIfiHelper;
@@ -64,12 +65,12 @@ public class DoorOpenRequestTask extends AsyncTask<Void, Integer, DoorOpenResult
             e.printStackTrace();
             return DoorOpenResult.FALSE;
         }
-        if (!result.trim().isEmpty()){
-            if (result.equalsIgnoreCase("true")){
+        if (!result.trim().isEmpty()) {
+            if (result.equalsIgnoreCase("true")) {
                 return DoorOpenResult.TRUE;
-            }else if (result.equalsIgnoreCase("busy")){
+            } else if (result.equalsIgnoreCase("busy")) {
                 return DoorOpenResult.BUSY;
-            }else if (result.equalsIgnoreCase("false")){
+            } else if (result.equalsIgnoreCase("false")) {
                 return DoorOpenResult.FALSE;
             }
         }
@@ -78,6 +79,7 @@ public class DoorOpenRequestTask extends AsyncTask<Void, Integer, DoorOpenResult
 
     @Override
     protected void onPostExecute(DoorOpenResult result) {
+        FlurryAnalyticHelper.logDoorOpenRequest(result.toString());
         listener.onRequestResult(context, result);
     }
 }
