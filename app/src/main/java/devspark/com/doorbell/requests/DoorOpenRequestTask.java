@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
-
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.utils.DoorOpenResult;
 import devspark.com.doorbell.utils.FlurryAnalyticHelper;
@@ -49,7 +47,7 @@ public class DoorOpenRequestTask extends AsyncTask<Void, Integer, DoorOpenResult
             OkHttpClient client = OkHttpHelper.getOkHttpClient();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(JSON_FIELD_TOKEN, token);
-            jsonObject.put(JSON_FIELD_TEXTO, URLEncoder.encode(SPHelper.get().getUserNick(), PhoneConstants.CHARSET));
+            jsonObject.put(JSON_FIELD_TEXTO, SPHelper.get().getUserNick());
 
             RequestBody body = RequestBody.create(JSON, jsonObject.toString());
 

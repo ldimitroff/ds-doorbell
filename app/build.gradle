@@ -13,7 +13,7 @@ android {
 
 
     defaultConfig {
-        versionCode 26
+        versionCode 27
         versionName "1.1"
         applicationId "devspark.com.doorbell"
         minSdkVersion 16
