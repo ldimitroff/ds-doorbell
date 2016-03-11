@@ -8,13 +8,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/backBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="15dp"
+                android:background="@drawable/ic_back" />
 
             <devspark.com.doorbell.view.MyTextView
                 android:layout_width="wrap_content"
@@ -22,10 +30,10 @@
                 android:layout_alignParentTop="false"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal"
-                android:text="Settings"
+                android:text="@string/setting_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/white"
-                android:textSize="30dp" />
+                android:textSize="@dimen/setting_title_size" />
         </RelativeLayout>
 
         <View
@@ -35,7 +43,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/white" />
+            android:background="@color/colorLight" />
 
         <LinearLayout
             android:id="@+id/nickLL"
@@ -51,10 +59,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Sobrenombre"
+                android:text="@string/setting_nick_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textColor="@color/colorLabel"
+                android:textSize="@dimen/setting_sub_title_size" />
 
             <devspark.com.doorbell.view.MyTextView
                 android:id="@+id/nickTv"
@@ -62,10 +70,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="Lucas"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/white"
-                android:textSize="25dp" />
+                android:textSize="@dimen/setting_item_size" />
         </LinearLayout>
 
         <View
@@ -75,7 +82,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/white" />
+            android:background="@color/colorLight" />
 
         <LinearLayout
             android:id="@+id/notificationLL"
@@ -91,10 +98,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Notificaciones"
+                android:text="@string/setting_notification_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textColor="@color/colorLabel"
+                android:textSize="@dimen/setting_sub_title_size" />
 
             <devspark.com.doorbell.view.MyTextView
                 android:id="@+id/notificationTV"
@@ -102,10 +109,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="YES"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorGreen"
-                android:textSize="25dp" />
+                android:textSize="@dimen/setting_item_size" />
         </LinearLayout>
 
         <View
@@ -115,7 +121,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/white" />
+            android:background="@color/colorLight" />
 
         <LinearLayout
             android:id="@+id/vibrationLL"
@@ -131,10 +137,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Vibracion"
+                android:text="@string/settings_vibrate_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textColor="@color/colorLabel"
+                android:textSize="@dimen/setting_sub_title_size" />
 
             <devspark.com.doorbell.view.MyTextView
                 android:id="@+id/vibrationTV"
@@ -142,10 +148,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="YES"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorGreen"
-                android:textSize="25dp" />
+                android:textSize="@dimen/setting_item_size" />
         </LinearLayout>
 
     </LinearLayout>

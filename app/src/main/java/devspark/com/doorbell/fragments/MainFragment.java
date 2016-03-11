@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,7 +91,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
         mButtonTextView = (TextView) v.findViewById(R.id.button_text_view);
 
         mCircularExpandingView = (CircularExpandingView) v.findViewById(R.id.circularExpandingView);
-        mCircularExpandingView.setColor(ContextCompat.getColor(mContext, R.color.colorGreen));
+        mCircularExpandingView.setColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
 
         mButtonLayout = (LinearLayout) v.findViewById(R.id.buttonLayout);
 
@@ -191,7 +192,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
                 // create new textView and set the properties like clolr, size etc
                 MyTextView myText = new MyTextView(mContext);
                 myText.setGravity(Gravity.CENTER_VERTICAL);
-                myText.setTextSize(20);
+                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(R.dimen.login_title_size));
                 myText.setTextColor(Color.WHITE);
                 return myText;
             }

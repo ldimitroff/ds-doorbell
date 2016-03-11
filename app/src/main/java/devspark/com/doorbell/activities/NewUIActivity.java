@@ -64,7 +64,7 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
     @Override
     public void onHamburgerClick() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
         ft.add(R.id.fragment_container, SettingsFragment.getInstance(NewUIActivity.this));
         ft.addToBackStack(null);
         ft.commit();

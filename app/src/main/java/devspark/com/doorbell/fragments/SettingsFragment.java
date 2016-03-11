@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class SettingsFragment extends Fragment {
     private LinearLayout mNotificationLL;
     private LinearLayout mVibrationLL;
     private TextView mVibrationTV;
+    private Button mBackBtn;
 
     public SettingsFragment() {
     }
@@ -57,6 +59,8 @@ public class SettingsFragment extends Fragment {
         setTextAndColor(mVibrationTV, SPHelper.get().isVibrationEnabled());
 
         mVibrationLL.setVisibility(SPHelper.get().isNotificationEnabled() ? View.VISIBLE : View.INVISIBLE);
+
+        mBackBtn = (Button) v.findViewById(R.id.backBtn);
 
         return v;
     }
@@ -116,6 +120,13 @@ public class SettingsFragment extends Fragment {
                 boolean enabled = !SPHelper.get().isVibrationEnabled();
                 SPHelper.get().setVibrationEnabled(enabled);
                 setTextAndColor(mVibrationTV, enabled);
+            }
+        });
+
+        mBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
             }
         });
     }
