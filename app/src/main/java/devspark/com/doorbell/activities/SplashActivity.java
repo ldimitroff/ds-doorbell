@@ -6,13 +6,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import devspark.com.doorbell.R;
+import devspark.com.doorbell.utils.PhoneConstants;
 
 public class SplashActivity extends AppCompatActivity {
-
-    /**
-     * Duration of wait
-     **/
-    private static final int SPLASH_DISPLAY_LENGTH = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +26,6 @@ public class SplashActivity extends AppCompatActivity {
                 SplashActivity.this.finish();
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
-        }, SPLASH_DISPLAY_LENGTH);
+        }, PhoneConstants.SPLASH_DISPLAY_LENGTH);
     }
 }

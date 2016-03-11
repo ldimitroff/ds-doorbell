@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="greetings_array">
+        <item>$$ apurate que hace frio afuera</item>
+        <item>Dale $$, que hay que laburar</item>
+        <item>Mira la hora que estas llegando, $$</item>
+        <item>Siempre a la misma hora, muy bien</item>
+    </string-array>
+
+    <string-array name="opening_msg_array">
+        <item>$$ apurate que hace frio afuera</item>
+        <item>Dale $$, que hay que laburar</item>
+        <item>Mira la hora que estas llegando, $$</item>
+        <item>Siempre a la misma hora, muy bien</item>
+    </string-array>
+
+    <string-array name="busy_error_array">
+        <item>Te ganaron de mano</item>
+        <item>La puerta ya estaba avierta, no viste?</item>
+        <item>Antes de abrir, mira, porque ya estaba abierta</item>
+    </string-array>
+
+    <string-array name="error_array">
+        <item>Algo salio mal</item>
+        <item>Hubo un error</item>
+        <item>Error!! \nYa estamos contactando a los desarrolladores</item>
+        <item>Mhhh... esto nunca pasa...</item>
+    </string-array>
+
+
+</resources>
