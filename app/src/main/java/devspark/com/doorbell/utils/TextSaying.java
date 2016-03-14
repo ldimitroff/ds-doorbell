@@ -13,15 +13,30 @@ import devspark.com.doorbell.R;
 public class TextSaying {
 
     public static String getGreetingMsg(Context context) {
-        return getRndString(context, R.array.greetings_array).replace("$$", SPHelper.get().getUserFirstName());
+        return getRndString(context, R.array.greetings_array);
     }
 
     public static String getOpeningMsg(Context context) {
-        return getRndString(context, R.array.opening_msg_array).replace("$$", SPHelper.get().getUserFirstName());
+        return getRndString(context, R.array.opening_msg_array);
     }
 
     public static String getErrorText(DoorOpenResult result, Context context) {
-        return getRndString(context, result == DoorOpenResult.FALSE ? R.array.error_array : R.array.busy_error_array).replace("$$", SPHelper.get().getUserFirstName());
+        int id;
+        switch (result) {
+            case FALSE:
+                id = R.array.error_array;
+                break;
+            case BUSY:
+                id = R.array.busy_error_array;
+                break;
+            case NO_WIFI:
+                id = R.array.no_wifi_error_array;
+                break;
+            default:
+                id = R.array.error_array;
+                break;
+        }
+        return getRndString(context, id);
     }
 
     private static String getRndString(Context context, int id) {
@@ -29,6 +44,6 @@ public class TextSaying {
         String[] stringArray = res.getStringArray(id);
         Random random = new Random();
         int rnd = random.nextInt(stringArray.length - 1);
-        return stringArray[rnd];
+        return stringArray[rnd].replace("$$", SPHelper.get().getUserFirstName());
     }
 }

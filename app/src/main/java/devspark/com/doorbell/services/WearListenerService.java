@@ -10,7 +10,6 @@ import devspark.com.doorbell.DevsparkApp;
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.requests.DoorOpenRequestTask;
 import devspark.com.doorbell.utils.DoorOpenResult;
-import devspark.com.doorbell.utils.FlurryAnalyticHelper;
 import devspark.com.doorbell.utils.GoogleApiHelper;
 import devspark.com.doorbell.utils.PhoneConstants;
 
@@ -27,7 +26,6 @@ public class WearListenerService extends WearableListenerService implements Door
         Log.i("test", "onMessageReceived()");
         if (messageEvent.getPath().equals(PhoneConstants.PATH_OPEN_DOOR_MESSAGE)) {
             new DoorOpenRequestTask(this, getContext()).execute();
-            FlurryAnalyticHelper.logDoorOpenEvent(FlurryAnalyticHelper.FROM_WEAR);
         } else {
             super.onMessageReceived(messageEvent);
         }

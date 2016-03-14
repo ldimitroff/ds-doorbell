@@ -24,8 +24,8 @@ android {
         applicationId "devspark.com.doorbell"
         minSdkVersion 20
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.0"
+        versionCode 10
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -43,7 +43,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.support:wearable:1.3.0'
     compile 'com.google.android.gms:play-services-wearable:8.4.0'
-    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
-    compile 'com.github.glomadrian:loadingballs:1.1@aar'
     compile project(':doorbellcommons')
 }

@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.utils.DoorOpenResult;
-import devspark.com.doorbell.utils.FlurryAnalyticHelper;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbell.utils.SPHelper;
 import devspark.com.doorbell.wifi.WIfiHelper;
@@ -77,7 +76,6 @@ public class DoorOpenRequestTask extends AsyncTask<Void, Integer, DoorOpenResult
 
     @Override
     protected void onPostExecute(DoorOpenResult result) {
-        FlurryAnalyticHelper.logDoorOpenRequest(result.toString());
         listener.onRequestResult(context, result);
     }
 }

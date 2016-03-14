@@ -30,5 +30,7 @@
     <string name="setting_nick_title">Sobrenombre</string>
     <string name="setting_notification_title">Notificaciones</string>
     <string name="settings_vibrate_title">Vibracion</string>
+    <string name="must_use_ds_account">Necesitas usar tu cuenta de DevSpark</string>
+    <string name="login_error_toast">Hubo un problema al iniciar sesion</string>
 
 </resources>

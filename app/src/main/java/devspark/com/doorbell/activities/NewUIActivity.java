@@ -32,6 +32,7 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
     private static final int RC_SIGN_IN = 9001;
     private ProgressDialog mProgressDialog;
     private GoogleSignInOptions mGso;
+    private LoginFragment mLoginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,8 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
     public void showLoginFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-        ft.replace(R.id.fragment_container, LoginFragment.getInstance(NewUIActivity.this));
+        mLoginFragment = LoginFragment.getInstance(NewUIActivity.this);
+        ft.replace(R.id.fragment_container, mLoginFragment);
         ft.commit();
     }
 
@@ -105,6 +107,9 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             if (acct.getEmail() != null && !acct.getEmail().trim().contains("@devspark.com")) {
+                if (mLoginFragment != null) {
+                    mLoginFragment.showToast(getString(R.string.must_use_ds_account));
+                }
                 signOut();
                 return;
             }
@@ -123,12 +128,15 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
                         SPHelper.get().setUserSignedIn(true);
                         showMainFragment();
                     } else {
+                        if (mLoginFragment != null) {
+                            mLoginFragment.showToast(getString(R.string.login_error_toast));
+                        }
                         signOut();
                     }
                     hideProgressDialog();
                 }
             }).execute();
-        }else{
+        } else {
             signOut();
         }
     }

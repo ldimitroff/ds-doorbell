@@ -56,7 +56,7 @@ public class PhoneListenerService extends WearableListenerService {
         b.extend(new NotificationCompat.WearableExtender()
                 .setContentAction(0)
                 .addAction(new NotificationCompat.Action(R.drawable.ic_devspark, "Abrir Puerta", pendingIntent))
-                .addAction(new NotificationCompat.Action(R.drawable.lock_open, "Abrir Puerta", pendingIntent))
+                .addAction(new NotificationCompat.Action(R.drawable.ic_devspark, "Abrir Puerta", pendingIntent))
                 .setHintShowBackgroundOnly(true)
                 .setHintHideIcon(true)
                 .setBackground(BitmapFactory.decodeResource(DevsparkWearApp.getContext().getResources(), R.drawable.devspark_logo))

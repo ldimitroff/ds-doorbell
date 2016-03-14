@@ -1,24 +1,27 @@
 package devspark.com.doorbellwear;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.wearable.view.WatchViewStub;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 
-import com.dd.CircularProgressButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageApi;
@@ -30,12 +33,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import devspark.com.doorbellcommons.Utils;
+import devspark.com.doorbellcommons.views.CircularExpandingView;
+import devspark.com.doorbellcommons.views.WaveHelper;
+import devspark.com.doorbellcommons.views.WaveView;
 
 public class WearActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private ImageView mLockImageView;
-    private TransitionDrawable mTransitionDrawable;
-    private CircularProgressButton mCircularProgressButton;
     private boolean mIsDoorOpening = false;
     private GoogleApiClient mGoogleApiClient;
     private boolean mFromNotification = false;
@@ -47,7 +50,7 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
         public void onReceive(Context context, Intent intent) {
             boolean success = intent.getBooleanExtra(WearConstants.DOOR_OPEN_REQUEST_RESULT_MESSAGE, false);
 
-            if (mFromNotification && success){
+            if (mFromNotification && success) {
                 NotificationManagerCompat man = NotificationManagerCompat.from(DevsparkWearApp.getContext());
                 man.cancel(0);
                 WearActivity.this.finish();
@@ -58,6 +61,13 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
         }
     };
 
+
+    private Button mButton;
+    private CircularExpandingView mCircularExpandingView;
+    private Animation mPulseAnimation;
+    private WaveView mWaveView;
+    private WaveHelper mWaveHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +77,8 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                showBallView(mIsDoorOpenRequested);
                 initViews();
+                showPulseAnimation(mIsDoorOpenRequested);
                 connectGoogleApiClient();
             }
         });
@@ -100,26 +110,25 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
     }
 
     private void initViews() {
-        mLockImageView = (ImageView) findViewById(R.id.lockImageView);
 
-        mTransitionDrawable = new TransitionDrawable(new Drawable[]{
-                getResources().getDrawable(R.drawable.lock_closed),
-                getResources().getDrawable(R.drawable.lock_open)
-        });
-        mTransitionDrawable.setCrossFadeEnabled(true);
+        mButton = (Button) findViewById(R.id.button);
+        mCircularExpandingView = (CircularExpandingView) findViewById(R.id.circularExpandingView);
+        mCircularExpandingView.setColor(ContextCompat.getColor(WearActivity.this, R.color.colorGreen));
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        mCircularExpandingView.setBounds(displaymetrics.widthPixels / 2, displaymetrics.heightPixels / 2);
 
-        mLockImageView.setImageDrawable(mTransitionDrawable);
-        mLockImageView.bringToFront();
+        mWaveView = (WaveView) findViewById(R.id.wave_view);
+        mPulseAnimation = AnimationUtils.loadAnimation(WearActivity.this, R.anim.pulse);
 
-
-        mCircularProgressButton = (CircularProgressButton) findViewById(R.id.btnWithText);
-        mCircularProgressButton.setOnClickListener(new View.OnClickListener() {
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mIsDoorOpening || mIsDoorOpenRequested) {
                     return;
                 }
-                showBallView(true);
+                showPulseAnimation(true);
+                mButton.setEnabled(false);
                 mIsDoorOpenRequested = mIsDoorOpening = true;
                 sendOpenDoorMessage();
                 startDefaultTimerTask();
@@ -134,71 +143,79 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
         mTimer.schedule(myTimerTask, WearConstants.TIMER_TASK_DEFAULT);
     }
 
-    private void cancelDefaultTimerTask(){
-        if (mTimer !=null){
+    private void cancelDefaultTimerTask() {
+        if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;
         }
     }
 
-    private void showBallView(boolean show) {
+    private void showPulseAnimation(boolean show) {
         if (show) {
-            findViewById(R.id.lockImageView).animate().alpha(0.0f);
-            findViewById(R.id.ballView).animate().alpha(1.0f);
+            mButton.startAnimation(mPulseAnimation);
         } else {
-            findViewById(R.id.ballView).animate().alpha(0.0f);
-            findViewById(R.id.lockImageView).animate().alpha(1.0f);
+            mButton.clearAnimation();
+            mPulseAnimation.cancel();
         }
     }
 
     private void updateCircularBtnStatus(boolean success) {
         if (success) {
-            startProgressCircularBtn();
+            expandCircleButton();
         } else {
-            showBallView(false);
-            mCircularProgressButton.setProgress(-1);
-            resetProgressButtonDelayed();
+            mPulseAnimation.cancel();
+            mButton.setEnabled(false);
+            mButton.setBackground(ContextCompat.getDrawable(WearActivity.this, R.drawable.round_button_error));
+            resetDoorOpenBtnDelayed();
         }
         Utils.vibrate(WearActivity.this, success);
     }
 
-    private void startProgressCircularBtn() {
-        CountDownTimer mCountDownTimer = new CountDownTimer(WearConstants.COUNTDOWN_TIMER_TIME, WearConstants.COUNTDOWN_TIMER_STEP) {
-            int totalTime = WearConstants.COUNTDOWN_TIMER_TIME;
-            int mCountDown = 0;
-            boolean transitionStarted = false;
-
+    private void expandCircleButton() {
+        mButton.clearAnimation();
+        mPulseAnimation.cancel();
+        mCircularExpandingView.setVisibility(View.VISIBLE);
+        Animator expandAnimator = mCircularExpandingView.expand();
+        expandAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                mCountDown = (int) ((totalTime - millisUntilFinished) * 100 / totalTime);
-                mCircularProgressButton.setProgress(mCountDown);
-                if (mCountDown > 10 && !transitionStarted) {
-                    showBallView(false);
-                    mTransitionDrawable.startTransition(WearConstants.TRANSITION_DRAWABLE_TIME);
-                    mLockImageView.bringToFront();
-                    transitionStarted = true;
-                }
-            }
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mButton.setVisibility(View.INVISIBLE);
+                mCircularExpandingView.setVisibility(View.INVISIBLE);
 
-            @Override
-            public void onFinish() {
-                //Do what you want
-                mCircularProgressButton.setProgress(100);
-                mTransitionDrawable.reverseTransition(WearConstants.TRANSITION_DRAWABLE_TIME);
-                mLockImageView.bringToFront();
-                resetProgressButtonDelayed();
+                mWaveView.setVisibility(View.VISIBLE);
+                mWaveView.setWaveColor(Color.TRANSPARENT, ContextCompat.getColor(WearActivity.this, R.color.colorGreen));
+                int mBorderColor = Color.parseColor("#44FFFFFF");
+                mWaveView.setBorder(1, mBorderColor);
+                mWaveView.setShapeType(WaveView.ShapeType.SQUARE);
+                mWaveHelper = new WaveHelper(mWaveView);
+
+                mWaveHelper.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mWaveHelper.cancel();
+                        mWaveView.setVisibility(View.INVISIBLE);
+                        mButton.setVisibility(View.VISIBLE);
+                        mButton.setEnabled(true);
+                        mIsDoorOpenRequested = mIsDoorOpening = false;
+                    }
+                });
+
+                mWaveHelper.start();
             }
-        };
-        mCountDownTimer.start();
+        });
+        expandAnimator.start();
     }
 
-    private void resetProgressButtonDelayed() {
+    private void resetDoorOpenBtnDelayed() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 // acciones que se ejecutan tras los milisegundos
-                mCircularProgressButton.setProgress(0);
-                mIsDoorOpening = false;
+                mButton.setBackground(ContextCompat.getDrawable(WearActivity.this, R.drawable.round_button));
+                mButton.setEnabled(true);
+                mIsDoorOpenRequested = mIsDoorOpening = false;
             }
         }, WearConstants.TIMER_RESET_PB);
     }
@@ -241,7 +258,7 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
         Log.e("test", "onConnected");
         if (mIsDoorOpenRequested) {
             mIsDoorOpenRequested = false;
-            mCircularProgressButton.performClick();
+            mButton.performClick();
         }
     }
 
@@ -256,7 +273,7 @@ public class WearActivity extends Activity implements GoogleApiClient.Connection
         Log.e("test", connectionResult.toString());
     }
 
-    class MyTimerTask extends TimerTask{
+    class MyTimerTask extends TimerTask {
 
         @Override
         public void run() {

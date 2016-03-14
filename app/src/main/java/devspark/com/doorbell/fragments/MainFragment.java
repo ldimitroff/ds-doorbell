@@ -32,10 +32,11 @@ import devspark.com.doorbell.utils.DoorOpenResult;
 import devspark.com.doorbell.utils.PhoneConstants;
 import devspark.com.doorbell.utils.SPHelper;
 import devspark.com.doorbell.utils.TextSaying;
-import devspark.com.doorbell.view.CircularExpandingView;
+import devspark.com.doorbellcommons.views.CircularExpandingView;
 import devspark.com.doorbell.view.MyTextView;
-import devspark.com.doorbell.view.WaveHelper;
-import devspark.com.doorbell.view.WaveView;
+import devspark.com.doorbellcommons.views.WaveHelper;
+import devspark.com.doorbellcommons.views.WaveView;
+import devspark.com.doorbell.wifi.WIfiHelper;
 import devspark.com.doorbellcommons.Utils;
 
 /**
@@ -59,6 +60,10 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
     private View.OnClickListener mButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (!WIfiHelper.isDSWifiConnected(getContext())){
+                circuleButtonError(DoorOpenResult.NO_WIFI);
+                return;
+            }
             new DoorOpenRequestTask(MainFragment.this, getContext()).execute();
             setCircularExpandingBounds(v);
             v.startAnimation(mPulseAnimation);
@@ -192,7 +197,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
                 // create new textView and set the properties like clolr, size etc
                 MyTextView myText = new MyTextView(mContext);
                 myText.setGravity(Gravity.CENTER_VERTICAL);
-                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(R.dimen.login_title_size));
+                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(R.dimen.common_title_size));
                 myText.setTextColor(Color.WHITE);
                 return myText;
             }

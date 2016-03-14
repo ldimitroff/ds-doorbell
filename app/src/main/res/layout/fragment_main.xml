@@ -80,13 +80,13 @@
         </LinearLayout>
     </LinearLayout>
 
-    <devspark.com.doorbell.view.CircularExpandingView
+    <devspark.com.doorbellcommons.views.CircularExpandingView
         android:id="@+id/circularExpandingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible" />
 
-    <devspark.com.doorbell.view.WaveView
+    <devspark.com.doorbellcommons.views.WaveView
         android:id="@+id/wave_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

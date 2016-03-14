@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.SignInButton;
 
@@ -47,5 +48,9 @@ public class LoginFragment extends Fragment {
                 mActivity.signIn();
             }
         });
+    }
+
+    public void showToast(String s) {
+        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 }

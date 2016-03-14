@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="login_title_size">24sp</dimen>
+    <dimen name="common_title_size">20sp</dimen>
+    <dimen name="login_title_size">18sp</dimen>
     <dimen name="setting_title_size">18sp</dimen>
     <dimen name="setting_sub_title_size">13sp</dimen>
     <dimen name="setting_item_size">25sp</dimen>
