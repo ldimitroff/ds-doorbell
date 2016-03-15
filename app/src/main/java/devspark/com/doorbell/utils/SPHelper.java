@@ -90,10 +90,14 @@ public class SPHelper {
 
     public String getUserNick() {
         String userNick = getSharedPreferences().getString(context.getString(R.string.devspark_user_nick), "");
-        if (TextUtils.isEmpty(userNick)){
+        if (TextUtils.isEmpty(userNick)) {
             return getUserName().split(" ")[0];
         }
         return userNick;
+    }
+
+    public String getUserFirstName() {
+        return getUserName().split(" ")[0];
     }
 
     public void setUserNick(String nick) {

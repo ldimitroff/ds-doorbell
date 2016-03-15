@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:lib="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,42 +7,27 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.dd.CircularProgressButton
-            android:id="@+id/btnWithText"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_centerHorizontal="true"
+        <Button
+            android:id="@+id/button"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_button"
             android:layout_centerVertical="true"
-            android:stateListAnimator="@null"
-            android:textColor="@android:color/white"
-            android:textSize="23sp"
-            app:cpb_colorIndicator="@color/cpb_green_dark"
-            app:cpb_cornerRadius="100dp"
-            app:cpb_selectorComplete="@drawable/complete_state_selector"
-            app:cpb_selectorIdle="@drawable/idle_state_selector" />
-
-        <ImageView
-            android:id="@+id/lockImageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="visible" />
-
-        <com.github.glomadrian.loadingballs.BallView
-            android:id="@+id/ballView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:alpha="0.0"
-            lib:ball_colors="@array/colors"
-            lib:balls="3"
-            lib:min_ball_size="3dp"
-            lib:movement_cycle_time="1500"
-            lib:size_cycle_time="500" />
-
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
+
+    <devspark.com.doorbellcommons.views.CircularExpandingView
+        android:id="@+id/circularExpandingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
+
+    <devspark.com.doorbellcommons.views.WaveView
+        android:id="@+id/wave_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="1"
+        android:visibility="invisible" />
 
 </RelativeLayout>

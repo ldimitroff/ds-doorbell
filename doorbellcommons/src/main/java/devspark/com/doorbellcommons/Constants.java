@@ -6,9 +6,7 @@ package devspark.com.doorbellcommons;
 public class Constants {
 
     public static final int COUNTDOWN_TIMER_TIME = 3000;
-    public static final int COUNTDOWN_TIMER_STEP = 10;
     public static final int TIMER_RESET_PB = 1500;
-    public static final int TRANSITION_DRAWABLE_TIME = 500;
 
     public static final String PATH_REQUEST_RESULT = "REQUEST_RESULT";
     public static final String PATH_REQUEST_RESULT_SUCCESS = "REQUEST_RESULT_SUCCESS";

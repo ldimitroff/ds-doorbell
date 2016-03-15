@@ -4,14 +4,6 @@
     <string name="notification_discard">Descartar</string>
     <string name="notification_content_text">Click para abrir puerta!</string>
 
-    <string name="must_be_on_ds_network">Debes estar conectado en la red \'DevSpark\' o \'DevSpark-Mobile\'</string>
-    <string name="button_show_notification">Mostrar Notificacion</string>
-    <string name="button_open_door">Abrir Puerta</string>
-
-    <string name="settings_notification_vibrate">Vibrar</string>
-    <string name="setting_notification_activate">Activar Notificacion</string>
-    <string name="settings_notification">Ajuste Notificacion</string>
-
     <string name="devspark_notification_vibrate">DEVSPARK_NOTIFICATION_VIBRATE</string>
     <string name="devspark_notification_active">DEVSPARK_NOTIFICATION_ACTIVE</string>
     <string name="devspark_user_signed_in">DEVSPARK_USER_SIGNED_IN</string>
@@ -24,34 +16,21 @@
 
     <string name="toast_request_error">Hubo un error en el intento de abrir la puerta</string>
     <string name="toast_request_door_busy">La puerta ya estaba abierta…</string>
-    <string name="open_door_button_opening">Abriendo</string>
-    <string name="google_login_logging_in">Iniciando Sesion</string>
-
-    <string name="dialog_negative">No</string>
-    <string name="dialog_positive">Si</string>
-    <string name="dialog_logout_title">Seguro que quiere desvincular la cuenta?</string>
     <string name="dialog_signing_in">Iniciando Sesion</string>
-    <string name="dialog_login_title">Tenes que estar loggeado para abrir la puerta</string>
-    <string name="dialog_login_now">Desea loggearse ahora?</string>
-
-    <string name="toast_login_error">Hubo un error al hacer login</string>
-    <string name="toast_login_success">Logueado correctamente: %1$s</string>
-    <string name="title_activity_main2">Main2Activity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="nav_sign_out">Cerrar Sesion</string>
-
-    <string name="door_status_opening">Abriendo</string>
-    <string name="door_status_closed">Cerrado</string>
-    <string name="door_status_open">Abierto</string>
     <string name="toast_notification_time_completed">Puerta Cerrada. Tiempo Completado</string>
     <string name="toast_notification_time_remaining">"Puerta Abierta. Tiempo Restante: "</string>
-    <string name="sign_in_account_not_able">Esta cuenta no esta habilitada</string>
-    <string name="button_change_nick">Cambiar Alias</string>
     <string name="dialog_cancel">Cancelar</string>
     <string name="dialog_accept">Aceptar</string>
     <string name="dialog_change_nick_title">Cambiar Nombre de Bienvenida</string>
+
+    <string name="tap_to_open">Click para abrir</string>
+    <string name="error_message">Algo Salio Mal</string>
+    <string name="login_text_msg">Si no usas tu cuenta de DevSpark, no funciona...</string>
+    <string name="setting_title">Settings</string>
+    <string name="setting_nick_title">Sobrenombre</string>
+    <string name="setting_notification_title">Notificaciones</string>
+    <string name="settings_vibrate_title">Vibracion</string>
+    <string name="must_use_ds_account">Necesitas usar tu cuenta de DevSpark</string>
+    <string name="login_error_toast">Hubo un problema al iniciar sesion</string>
+
 </resources>

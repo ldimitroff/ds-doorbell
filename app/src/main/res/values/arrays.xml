@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="greetings_array">
+        <item>$$ apurate que hace frio afuera</item>
+        <item>Dale $$, que hay que laburar</item>
+        <item>Mira la hora que estas llegando, $$</item>
+        <item>Siempre a la misma hora, muy bien</item>
+        <item>Llegas tarde a la daily gatooo</item>
+        <item>$$ abri que te quedas sin facturas…</item>
+        <item>Volvete que es feriado! Naaa mentira</item>
+        <item>Si entrar llorar, entre</item>
+    </string-array>
+
+    <string-array name="opening_msg_array">
+        <item>Todo lo que sube, baja…</item>
+        <item>Dime con quien andas, y te diré quien eres</item>
+        <item>Nunca es tarde si la dicha es buena.</item>
+        <item>Por dinero baila el perro, y por pan, si se lo dan.</item>
+        <item>Donde hay celos hay amor, donde hay viejos hay dolor</item>
+        <item>El que roba a un ladrón tiene cien años de perdón</item>
+        <item>En el país de los ciegos, el tuerto es rey </item>
+        <item>Todo lo que sube, baja</item>
+        <item>Esta noche los cumbieros levanten los brazos</item>
+        <item>El cafe con leche es como el cafe… pero con leche</item>
+        <item>Al que madruga… patada en los cojones</item>
+        <item>El que ríe el ultimo, esta re loco.</item>
+        <item>Barrilete cósmico, ¿de qué planeta viniste</item>?
+    </string-array>
+
+    <string-array name="busy_error_array">
+        <item>Te ganaron de mano</item>
+        <item>La puerta ya estaba avierta, no viste?</item>
+        <item>Antes de abrir, mira, porque ya estaba abierta</item>
+        <item>Te re cabió, ya abrieron la puerta.</item>
+        <item>Caracol, alguien te gano de mano y abrió la puerta.</item>
+        <item>Pasa $$ que ya te abrieron</item>
+        <item>Se te escapo la tortuga…</item>
+    </string-array>
+
+    <string-array name="error_array">
+        <item>Algo salio mal</item>
+        <item>Hubo un error</item>
+        <item>Error!! \nYa estamos contactando a los desarrolladores</item>
+        <item>Mhhh… esto nunca pasa…</item>
+        <item>Se rompió todo… avisale al largo</item>
+        <item>Toca timbre porque esto se rompió</item>
+    </string-array>
+
+    <string-array name="no_wifi_error_array">
+        <item>Fijate la wifi a la que estas conectado</item>
+        <item>No estas en la red "DevSpark"</item>
+        <item>Necesitas estar conectado a "DevSpark" wifi</item>
+        <item>No estas conectado a la güifi</item>
+        <item>Estas re out man, conéctate a la wifi</item>
+    </string-array>
+
+
+</resources>

@@ -6,5 +6,6 @@ package devspark.com.doorbell.utils;
 public enum DoorOpenResult {
     TRUE,
     BUSY,
+    NO_WIFI,
     FALSE
 }
