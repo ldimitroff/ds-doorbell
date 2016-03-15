@@ -40,6 +40,9 @@ public class TextSaying {
     }
 
     private static String getRndString(Context context, int id) {
+        if (context == null){
+            return "";
+        }
         Resources res = context.getResources();
         String[] stringArray = res.getStringArray(id);
         Random random = new Random();

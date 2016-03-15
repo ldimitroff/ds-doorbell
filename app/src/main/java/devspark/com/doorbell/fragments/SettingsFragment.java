@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import devspark.com.doorbell.R;
-import devspark.com.doorbell.activities.NewUIActivity;
 import devspark.com.doorbell.utils.SPHelper;
 
 /**
@@ -24,7 +23,6 @@ import devspark.com.doorbell.utils.SPHelper;
  */
 public class SettingsFragment extends Fragment {
 
-    private NewUIActivity mActivity;
     private TextView mNickTv;
     private LinearLayout mNickLL;
     private TextView mNotificationTV;
@@ -36,10 +34,8 @@ public class SettingsFragment extends Fragment {
     public SettingsFragment() {
     }
 
-    public static SettingsFragment getInstance(NewUIActivity newUIActivity) {
-        SettingsFragment fragment = new SettingsFragment();
-        fragment.mActivity = newUIActivity;
-        return fragment;
+    public static SettingsFragment getInstance() {
+        return new SettingsFragment();
     }
 
     @Override

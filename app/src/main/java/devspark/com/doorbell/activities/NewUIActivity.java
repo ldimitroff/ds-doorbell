@@ -40,9 +40,6 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
         startGmailSingIn();
         setContentView(R.layout.activity_new_ui_activity);
         if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
             SplashFragment fragment = SplashFragment.getInstance(this);
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
         }
@@ -51,7 +48,7 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
     public void showMainFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-        ft.replace(R.id.fragment_container, MainFragment.getInstance(NewUIActivity.this));
+        ft.replace(R.id.fragment_container, MainFragment.getInstance());
         ft.commit();
     }
 
@@ -67,7 +64,7 @@ public class NewUIActivity extends FragmentActivity implements OnMainFragmentLis
     public void onHamburgerClick() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
-        ft.add(R.id.fragment_container, SettingsFragment.getInstance(NewUIActivity.this));
+        ft.add(R.id.fragment_container, SettingsFragment.getInstance());
         ft.addToBackStack(null);
         ft.commit();
     }

@@ -24,6 +24,7 @@ import android.widget.ViewSwitcher;
 import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import devspark.com.doorbell.DevsparkApp;
 import devspark.com.doorbell.R;
 import devspark.com.doorbell.listeners.DoorOpenRequestListener;
 import devspark.com.doorbell.listeners.OnMainFragmentListener;
@@ -44,7 +45,6 @@ import devspark.com.doorbellcommons.Utils;
  */
 public class MainFragment extends Fragment implements DoorOpenRequestListener {
 
-    private Context mContext;
     private CircleImageView mProfileImage;
     private CircularExpandingView mCircularExpandingView;
     private Button mButton;
@@ -56,11 +56,12 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
     private TextView mButtonTextView;
     private Animation mPulseAnimation;
     private OnMainFragmentListener mCallback;
+    private Handler mResetHandler;
 
     private View.OnClickListener mButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (!WIfiHelper.isDSWifiConnected(getContext())){
+            if (!WIfiHelper.isDSWifiConnected(getContext())) {
                 circuleButtonError(DoorOpenResult.NO_WIFI);
                 return;
             }
@@ -76,11 +77,19 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
         }
     };
 
+    private Runnable mResetRunnable = new Runnable() {
+        public void run() {
+            // acciones que se ejecutan tras los milisegundos
+            mButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.round_button));
+            mButton.setEnabled(true);
+            mButtonTextView.setText(getString(R.string.tap_to_open));
+            mSwitcher.setText(TextSaying.getGreetingMsg(getContext()));
+            mResetHandler = null;
+        }
+    };
 
-    public static MainFragment getInstance(Context context) {
-        MainFragment fragment = new MainFragment();
-        fragment.mContext = context;
-        return fragment;
+    public static MainFragment getInstance() {
+        return new MainFragment();
     }
 
     @Override
@@ -102,7 +111,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
 
         mWaveView = (WaveView) v.findViewById(R.id.wave_view);
 
-        mPulseAnimation = AnimationUtils.loadAnimation(mContext, R.anim.pulse);
+        mPulseAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.pulse);
 
         initTextSwitcher(v);
 
@@ -128,7 +137,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
         mButton.setOnClickListener(mButtonClickListener);
         mHamburgerButton.setOnClickListener(mHamburgerClkListener);
         String photoURl = SPHelper.get().getUserPhotoURL();
-        Glide.with(mContext)
+        Glide.with(getContext())
                 .load(photoURl)
                 .fitCenter()
                 .error(R.mipmap.ic_launcher)
@@ -149,7 +158,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
                 mCircularExpandingView.setVisibility(View.INVISIBLE);
 
                 mWaveView.setVisibility(View.VISIBLE);
-                mWaveView.setWaveColor(Color.TRANSPARENT, ContextCompat.getColor(mContext, R.color.colorGreen));
+                mWaveView.setWaveColor(Color.TRANSPARENT, ContextCompat.getColor(getContext(), R.color.colorGreen));
                 int mBorderColor = Color.parseColor("#44FFFFFF");
                 mWaveView.setBorder(1, mBorderColor);
                 mWaveView.setShapeType(WaveView.ShapeType.SQUARE);
@@ -173,10 +182,28 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
         expandAnimator.start();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mWaveHelper != null) {
+            mWaveHelper.addListener(null);
+        }
+        if (mWaveView != null) {
+            mWaveView.clearAnimation();
+        }
+        if (mButton != null) {
+            mButton.clearAnimation();
+        }
+        if (mResetHandler != null) {
+            mResetHandler.removeCallbacks(mResetRunnable);
+            mResetHandler = null;
+        }
+    }
+
     private void circuleButtonError(DoorOpenResult result) {
         mPulseAnimation.cancel();
         mButton.setEnabled(false);
-        mButton.setBackground(ContextCompat.getDrawable(mContext, R.drawable.round_button_error));
+        mButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.round_button_error));
         mButtonTextView.setText(R.string.error_message);
         mSwitcher.setText(TextSaying.getErrorText(result, getContext()));
         resetDoorOpenBtnDelayed();
@@ -195,16 +222,16 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
             @Override
             public View makeView() {
                 // create new textView and set the properties like clolr, size etc
-                MyTextView myText = new MyTextView(mContext);
+                MyTextView myText = new MyTextView(getContext());
                 myText.setGravity(Gravity.CENTER_VERTICAL);
-                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(R.dimen.common_title_size));
+                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, DevsparkApp.getInstance().getResources().getDimensionPixelSize(R.dimen.common_title_size));
                 myText.setTextColor(Color.WHITE);
                 return myText;
             }
         });
         // Declare the in and out animations and initialize them
-        Animation in = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_in);
-        Animation out = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_out);
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
         // set the animation type of textSwitcher
         mSwitcher.setInAnimation(in);
         mSwitcher.setOutAnimation(out);
@@ -225,15 +252,7 @@ public class MainFragment extends Fragment implements DoorOpenRequestListener {
     }
 
     private void resetDoorOpenBtnDelayed() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                // acciones que se ejecutan tras los milisegundos
-                mButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.round_button));
-                mButton.setEnabled(true);
-                mButtonTextView.setText(getString(R.string.tap_to_open));
-                mSwitcher.setText(TextSaying.getGreetingMsg(getContext()));
-            }
-        }, PhoneConstants.TIMER_RESET_PB);
+        mResetHandler = new Handler();
+        mResetHandler.postDelayed(mResetRunnable, PhoneConstants.TIMER_RESET_PB);
     }
 }
